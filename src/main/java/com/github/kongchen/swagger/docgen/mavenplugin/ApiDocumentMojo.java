@@ -63,7 +63,7 @@ public class ApiDocumentMojo extends AbstractMojo {
     @Parameter(property = "swagger.skip", defaultValue = "false")
     private boolean skipSwaggerGeneration;
 
-    @Parameter(property="file.encoding")
+    @Parameter
     private String encoding;
 
     public List<ApiSource> getApiSources() {
@@ -78,6 +78,9 @@ public class ApiDocumentMojo extends AbstractMojo {
     public void execute() throws MojoExecutionException, MojoFailureException {
         if(project !=null) {
             projectEncoding = project.getProperties().getProperty("project.build.sourceEncoding");
+        }
+        if (encoding == null) {
+            encoding = projectEncoding;
         }
 
         if (skipSwaggerGeneration) {
@@ -131,7 +134,7 @@ public class ApiDocumentMojo extends AbstractMojo {
                         apiSource.getSwaggerUIDocBasePath() == null
                                 ? apiSource.getBasePath()
                                 : apiSource.getSwaggerUIDocBasePath(),
-                        apiSource.getOutputFormats(), swaggerFileName, projectEncoding);
+                        apiSource.getOutputFormats(), swaggerFileName, encoding);
 
                 if (apiSource.isAttachSwaggerArtifact() && apiSource.getSwaggerDirectory() != null && project != null) {
                     String outputFormats = apiSource.getOutputFormats();

@@ -80,8 +80,13 @@ public class ApiDocumentMojo extends AbstractMojo {
             projectEncoding = project.getProperties().getProperty("project.build.sourceEncoding");
         }
         if (encoding == null) {
-            encoding = projectEncoding;
+            if (projectEncoding != null) {
+            	encoding = projectEncoding;
+            } else {
+            	encoding = System.getProperty("file.encoding");
+            }
         }
+        getLog().info("Output encoding: "+encoding);
 
         if (skipSwaggerGeneration) {
             getLog().info("Swagger generation is skipped.");

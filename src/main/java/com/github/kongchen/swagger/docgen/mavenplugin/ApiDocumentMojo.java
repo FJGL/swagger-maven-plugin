@@ -63,6 +63,9 @@ public class ApiDocumentMojo extends AbstractMojo {
     @Parameter(property = "swagger.skip", defaultValue = "false")
     private boolean skipSwaggerGeneration;
 
+    @Parameter(property="file.encoding")
+    private String fileEncoding;
+    
     @Parameter
     private String encoding;
 
@@ -83,7 +86,7 @@ public class ApiDocumentMojo extends AbstractMojo {
             if (projectEncoding != null) {
             	encoding = projectEncoding;
             } else {
-            	encoding = System.getProperty("file.encoding");
+            	encoding = fileEncoding;
             }
         }
         getLog().info("Output encoding: "+encoding);
